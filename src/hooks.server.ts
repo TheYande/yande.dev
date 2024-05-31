@@ -1,6 +1,6 @@
 // Import required modules
 import { google } from 'googleapis';
-import { env as e } from "$env/dynamic/private";
+import * as e from "$env/static/private";
 // import { marked } from "marked";
 const env = e ?? process.env
 // Initialize Google Sheets API
@@ -9,7 +9,7 @@ const auth = new google.auth.GoogleAuth({
     type: 'service_account',
     project_id: env.GOOGLE_SHEETS_PROJECT_ID,
     private_key_id: env.GOOGLE_SHEETS_PRIVATE_KEY_ID,
-    private_key: env.GOOGLE_SHEETS_PRIVATE_KEY.replace(/\\n/g, '\n'), // Replace newline characters
+    private_key: env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, '\n'), // Replace newline characters
     client_email: env.GOOGLE_SHEETS_CLIENT_EMAIL,
     client_id: env.GOOGLE_SHEETS_CLIENT_ID,
   },
@@ -24,9 +24,7 @@ const rawStatisticsRange = 'rawstatistics!A:B';
 const statisticsRange = 'statistics!A:B';
 
 // Function to update Google Sheets
-async function updateGoogleSheets(visitsPerPage: Record<string, number>,path) {
-
-
+async function updateGoogleSheets(visitsPerPage: Record<string, number>,path: string,event: RequestEvent) {
 
   try {
     // Update "rawstatistics" sheet
@@ -35,7 +33,7 @@ async function updateGoogleSheets(visitsPerPage: Record<string, number>,path) {
       range: rawStatisticsRange,
       valueInputOption: 'RAW',
       requestBody: {
-        values: [[path, Date.now()]],
+        values: [[path, Date.now(), event.request.headers.get("user-agent"), event.request.headers.get("referer")]],
       },
     });
 
@@ -55,7 +53,7 @@ async function updateGoogleSheets(visitsPerPage: Record<string, number>,path) {
 }
 
 // Function to track visits and update Google Sheets
-export async function trackVisit(path: string) {
+export async function trackVisit(event: RequestEvent) {
   // Track visits per page
   const visitsPerPage: Record<string, number> = {};
 
@@ -78,20 +76,19 @@ export async function trackVisit(path: string) {
   }
 
   // Increment visit count for the current path
-  visitsPerPage[path] = (visitsPerPage[path] || 0) + 1;
+  visitsPerPage[event.url.pathname] = (visitsPerPage[event.url.pathname] || 0) + 1;
 
   // Update Google Sheets
-  await updateGoogleSheets(visitsPerPage,path);
+  await updateGoogleSheets(visitsPerPage,event.url.pathname,event);
 }
 
 // src/hooks.server.ts
 
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, RequestEvent } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
 
-  console.log('Executing code on each request on the server side.');
- if ((!event.url.pathname.startsWith("/api")) && (!event.url.pathname.startsWith("/gh"))) trackVisit(event.url.pathname)
+ if ((!event.url.pathname.startsWith("/api")) && (!event.url.pathname.startsWith("/gh"))) trackVisit(event)
 
   const response = await resolve(event);
 
