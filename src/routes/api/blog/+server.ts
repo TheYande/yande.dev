@@ -24,7 +24,7 @@ const auth = new google.auth.GoogleAuth({
   const range = 'Sheet1!A:B';
   
   async function updateAndGetData() {
-    console.log("fetching data")
+    // console.log("fetching data")
     try {
       // Read the data from the specified range
       const response = await sheets.spreadsheets.values.get({
