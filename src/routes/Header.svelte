@@ -6,6 +6,16 @@
 	import { page, navigating } from '$app/stores';
 	import { onMount } from 'svelte';
 	import FlagBar from '$lib/components/FlagBar.svelte';
+
+let scrolled = false;
+
+onMount(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+function handleScroll() {
+  scrolled = window.scrollY > 50; // Change 100 to the scroll position where you want the effect to trigger
+}
 	/**
  * @type {any}
  */
@@ -18,6 +28,7 @@
  */
 	const allColors = [
 		[
+			['Homosexual'],
 			['#e40207', 1],
 			['#ff8c00', 1],
 			['#ffed00', 1],
@@ -25,33 +36,33 @@
 			['#004eff', 1],
 			['#760788', 1]
 		],
-		[
+		[['Transgender'],
 			['#5acefb', 1],
 			['#f5a9b9', 1],
 			['#ffffff', 1],
 			['#f5a9b9', 1],
 			['#5acefb', 1]
 		],
-		[
+		[['Pansexual'],
 			['#f12193', 1],
 			['#ffd00d', 1],
 			['#0096ff', 1]
 		],
-		[
+		[['Bisexual'],
 			['#fe0066', 2],
 			['#a915cf', 1],
 			['#3302cb', 2],
-		],[
+		],[['Nonbinairy'],
 			['#fbe700', 1],
 			['#ffffff', 1],
 			['#9646cf', 1],
 			['#2d2d2d', 1],
-		],[
+		],[['Asexual'],
 			['#000000', 1],
 			['#a5a5a5', 1],
 			['#ffffff', 1],
 			['#800980', 1],
-		],[
+		],[['Lesbian'],
 			['#d42c02', 1],
 			['#ed7621', 1],
 			['#ff9a56', 1],
@@ -59,7 +70,7 @@
 			['#d162a4', 1],
 			['#b4568f', 1],
 			['#a20061', 1]
-		],[
+		],[['Demiboy'],
 			['#7f7f7f', 1],
 			['#c4c4c4', 1],
 			['#9ad9eb', 1],
@@ -67,7 +78,7 @@
 			['#9ad9eb', 1],
 			['#c4c4c4', 1],
 			['#7f7f7f', 1]
-		],[
+		],[['Demigender'],
 			['#7f7f7f', 1],
 			['#c4c4c4', 1],
 			['#fbfe74', 1],
@@ -75,7 +86,7 @@
 			['#fbfe74', 1],
 			['#c4c4c4', 1],
 			['#7f7f7f', 1]
-		],[
+		],[['Demigirl'],
 			['#7f7f7f', 1],
 			['#c4c4c4', 1],
 			['#ffaec9', 1],
@@ -83,7 +94,7 @@
 			['#ffaec9', 1],
 			['#c4c4c4', 1],
 			['#7f7f7f', 1]
-		],[
+		],[['Demitrans'],
 			['#7f7f7f', 1],
 			['#c4c4c4', 1],
 			['#9ad9eb', 1],
@@ -93,15 +104,15 @@
 			['#9ad9eb', 1],
 			['#c4c4c4', 1],
 			['#7f7f7f', 1]
-		],[
+		],[['Aboy'],
 			['#111111', 2],
 			['#6fa8dc', 1],
 			['#111111', 2],
-		],[
+		],[['Agirl'],
 			['#111111', 2],
 			['#ffc0cb', 1],
 			['#111111', 2],
-		],[
+		],[['Agender'],
 			['#000000', 1],
 			['#bcc4c6', 1],
 			['#ffffff', 1],
@@ -109,7 +120,7 @@
 			['#ffffff', 1],
 			['#bcc4c6', 1],
 			['#000000', 1],
-		],[
+		],[['Transmasc'],
 			['#ff8abd', 1],
 			['#ccf5fe', 1],
 			['#99eaff', 1],
@@ -117,7 +128,7 @@
 			['#99eafd', 1],
 			['#cdf5fe', 1],
 			['#ff8abd', 1],
-		],[
+		],[['Transfem'],
 			['#75dfff', 1],
 			['#fee1ed', 1],
 			['#ffb5d7', 1],
@@ -136,12 +147,12 @@
 	setInterval(() => {
 		colorIndex++;
 		colorIndex %= allColors.length;
-		colors = allColors[colorIndex];
-	}, 1000);
+		colors = allColors[colorIndex].slice(1);
+	}, 2000);
 </script>
 
 <header>
-	<nav>
+	<nav class:hidden={!scrolled} class="sticky-nav">
 		<svg style="transform: translateX(1px);" viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
@@ -154,9 +165,7 @@
 							<p>navigating to {$navigating.to?.url.pathname}</p>
 						</div>
 					</li>
-				</ul>
-				<FlagBar segments={colors} total={colors.reduce((/** @type {any} */ p, /** @type {any[]} */ c) => p + c[1],0)}></FlagBar>
-				<!-- <div class="pride" style="background: {generateGradientFromArray(colors)}"></div> -->
+				</ul>	
 			{:else}
 			<!-- <div class="pride" style="position:relative; transform: translateY(100%);"><FlagBar segments={colors} total={colors.reduce((/** @type {any} */ p, /** @type {any[]} */ c) => p + c[1],0)}></FlagBar></div> -->
 				<ul>
@@ -185,26 +194,85 @@
 						</a>
 					</li>
 				</ul>
-				<div class="pride" style="transform: translateY(-50%);"><FlagBar segments={colors} total={colors.reduce((/** @type {any} */ p, /** @type {any[]} */ c) => p + c[1],0)}></FlagBar></div>
+				
 				
 			{/if}
+			<div class="pride" style="transform: translateY(-50%);"><FlagBar segments={colors} total={colors.reduce((/** @type {any} */ p, /** @type {any[]} */ c) => p + c[1],0)}></FlagBar></div>
 		</div>
 		<svg style="transform: translateX(-1px);" viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
 	</nav>
+	<nav class="vert top-nav">
+		{#if $navigating}
+			<ul >
+				<li class="corner">
+					<div class="t">
+						<div class="loader"></div>
+						<p>navigating to {$navigating.to?.url.pathname}</p>
+					</div>
+				</li>
+			</ul>	
+		{:else}
+		<!-- <div class="pride" style="position:relative; transform: translateY(100%);"><FlagBar segments={colors} total={colors.reduce((/** @type {any} */ p, /** @type {any[]} */ c) => p + c[1],0)}></FlagBar></div> -->
+			<ul>
+				<li class="corner">
+					<a href="/">
+						<img src={yande} alt="Yande.dev" />
+					</a>
+				</li>
+				<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+					<a href="/about">About</a>
+				</li>
+				<li aria-current={$page.url.pathname === '/blog' ? 'page' : undefined}>
+					<a href="/blog">Posts</a>
+				</li>
+				<li aria-current={$page.url.pathname === '/bots' ? 'page' : undefined}>
+					<a href="/bots">Bots</a>
+				</li>
+				<li class="corner">
+					<a href="https://github.com/theyande/">
+						<img src={github} alt="GitHub" />
+					</a>
+				</li>
+				<li class="corner">
+					<a href="https://kit.svelte.dev">
+						<img src={logo} alt="SvelteKit" />
+					</a>
+				</li>
+			</ul>
+			
+			
+		{/if}
+		<div class="pridebig" style="transform: translateY(-50%);"><FlagBar segments={colors} total={colors.reduce((/** @type {any} */ p, /** @type {any[]} */ c) => p + c[1],0)} tooltip={allColors[colorIndex]?.[0]}></FlagBar></div>
+		</nav>
+
 
 </header>
 
 <style>
-	.pride {
+	.top-nav {
 		width:100%;
-		
-		height: 15px;
+	}
+	.pride {
+		width:calc(100% - 0px);
+		margin-left: 0px;
+		height: 10px;
 		overflow:hidden;
 		display: flex;
 		justify-content: center;
-		z-index: 10;
+		z-index: 1000;
+		overflow: hidden;
+		border-radius: 5px;
+	}
+	.pridebig {
+		width:calc(100% - 1000px);
+		margin-left: 500px;
+		height: 10px;
+		overflow:hidden;
+		display: flex;
+		justify-content: center;
+		z-index: 1000;
 		overflow: hidden;
 		border-radius: 5px;
 	}
@@ -257,8 +325,16 @@
 		display: flex;
 		justify-content: center;
 		--background: rgb(81, 81, 81);
-		position: fixed;
+		
 		z-index: 10000;
+		transition: all 500ms;
+	}
+	.sticky-nav {
+		position:fixed;
+		
+	}
+	.hidden{
+		transform: translateY(-100%);
 	}
 
 	svg {
@@ -273,14 +349,14 @@
 
 	ul {
 		position: relative;
-		padding: 0;
+		padding: 0px;
 		margin: 0;
 		height: 3em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		list-style: none;
-		background: var(--background);
+		background:var(--background) 50px;
 		/* opacity: 0.5; */
 		background-size: contain;
 	}
