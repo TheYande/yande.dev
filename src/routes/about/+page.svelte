@@ -58,7 +58,7 @@
 		<!-- <img src="https://cataas.com/cat" style="height: 400px; border-radius:30px" alt="cat" /> -->
 		<p>heres what im up to on discord:</p>
 		<img
-			src="https://lanyard.cnrad.dev/api/713805665407205426?showDisplayName=true&idleMessage=Not%20doin%20crap"
+			src="https://lanyard.cnrad.dev/api/1014588310036951120?showDisplayName=true&idleMessage=Not%20doin%20crap"
 			alt="discordthing"
 		/>
 
