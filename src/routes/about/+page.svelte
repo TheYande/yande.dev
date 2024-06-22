@@ -24,7 +24,7 @@
 					<div class="horiz">
 						<p>({pPage.profiles.en.age})</p>
 						{#each pPage.profiles.en.flags as flag}
-							<img class="flag" src="https://en.pronouns.page/flags/{flag}.png" alt={flag} />
+							<img class="flag" src="https://en.pronouns.page/flags/{flag}.png" alt={flag} tooltip={flag} />
 						{/each}
 					</div>
 					<div class="horiz">
