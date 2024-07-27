@@ -42,7 +42,7 @@
 			<ul>
 				<li>coding</li>
 				<li>chatting</li>
-				<li>callum</li>
+				<li>cally</li>
 				<li>pizza</li>
 				<li>chicken</li>
 			</ul>
