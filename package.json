@@ -9,7 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"start": "serve -s dist -l 3001",
+		"start": "npm run preview",
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
