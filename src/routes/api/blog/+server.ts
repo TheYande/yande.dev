@@ -10,7 +10,7 @@ const auth = new google.auth.GoogleAuth({
       type: 'service_account',
       project_id: env.GOOGLE_SHEETS_PROJECT_ID,
       private_key_id: env.GOOGLE_SHEETS_PRIVATE_KEY_ID,
-      private_key: env.GOOGLE_SHEETS_PRIVATE_KEY.replace(/\\n/g, '\n'), // Replace newline characters
+      private_key: env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, '\n'), // Replace newline characters
       client_email: env.GOOGLE_SHEETS_CLIENT_EMAIL,
       client_id: env.GOOGLE_SHEETS_CLIENT_ID,
     },
