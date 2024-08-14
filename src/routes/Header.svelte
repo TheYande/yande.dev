@@ -174,6 +174,9 @@
 					<li aria-current={$page.url.pathname === '/bots' ? 'page' : undefined}>
 						<a href="/bots">Bots</a>
 					</li>
+					<li aria-current={$page.url.pathname === '/send	' ? 'page' : undefined}>
+						<a href="/send">Send</a>
+					</li>
 					<li class="corner">
 						<a href="https://github.com/theyande/">
 							<img src={github} alt="GitHub" />
