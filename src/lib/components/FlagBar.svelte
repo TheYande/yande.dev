@@ -8,14 +8,16 @@
 
 	export let total 
 
+	export let vertical = false
+
 	let max = [["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0],["",0]]
 
 </script>
 
-<div class="segmented-bar">
+<div class="segmented-bar" style="{vertical ? "flex-direction: column;":""}">
 	{#each [...max.slice(0,(max.length - segments.length)/2),...segments,...max.slice(0,(max.length - segments.length)/2)] as segment}
 		<div
-			style="width: {(segment[1] / total ) * 100}%; background-color: {segment[0]};"
+			style="{vertical ? "height" : "width"}: {(segment[1] / total ) * 100}%; background-color: {segment[0]};"
 		></div>
 	{/each}
 </div>
