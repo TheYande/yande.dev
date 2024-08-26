@@ -15,10 +15,14 @@
   
   <div class="image-container" class:blurred={!showImage} class:fullscreen={isFullscreen}>
     <!-- Original Image -->
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <img src={imageUrl} alt={category} class:visible={showImage} on:click={toggleImageVisibility} />
     
     <!-- Fullscreen Image -->
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     {#if isFullscreen}
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div class="blur-mask" on:click={toggleImageVisibility}></div>
       <img src={imageUrl} alt={category} class="fullscreen-image" />
     {/if}

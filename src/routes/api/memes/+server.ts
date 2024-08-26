@@ -9,8 +9,10 @@ const fileToBase64 = (filePath: PathOrFileDescriptor) => {
     return `data:${mimeType};base64,${fileData.toString('base64')}`;
 };
 
+ let images: {[id:string]:string} = {}                    
+let id = 0
 // Function to read directories and files
-const readMemesDirectory = (dirPath: PathLike) => {
+const readMemesDirectory = (dirPath: any) => {
     const memes = {};
     const directories = readdirSync(dirPath, { withFileTypes: true });
 
@@ -18,16 +20,20 @@ const readMemesDirectory = (dirPath: PathLike) => {
         if (dirent.isDirectory()) {
             const dirName = dirent.name;
             const files = readdirSync(join(dirPath, dirName));
-
+//@ts-ignore
             memes[dirName] = files
                 .filter(file => /\.(png|jpg|jpeg|gif|webp)$/.test(file))  // Filter to only include image files
-                .map(file => fileToBase64(join(dirPath, dirName, file)));
+                .map(file => {
+                    id++
+                    images[id] = fileToBase64(join(dirPath, dirName, file))
+                    return id
+                });
         }
     });
 
     return memes;
 };
-
+export const _imgs = images
 // Usage
 const memesDir = './memes';
 const memes = readMemesDirectory(memesDir);

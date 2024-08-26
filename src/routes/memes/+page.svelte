@@ -37,9 +37,11 @@
 		{#each p as m}
 			<div class="line">
 				{#each m as img}
-					<div class="image">
-						<Cw category={img.category} imageUrl={img.imageUrl}></Cw>
-					</div>
+					{#await fetch('/api/memes/' + img.imageUrl).then((a) => a.text()) then dat}
+						<div class="image">
+							<Cw category={img.category} imageUrl={dat}></Cw>
+						</div>
+					{/await}
 				{/each}
 			</div>
 		{/each}
@@ -49,18 +51,18 @@
 <style>
 	.image {
 		max-width: 200px;
-		margin: 20px
+		margin: 20px;
 	}
 	.container {
 		display: flex;
-        flex-direction: row;
+		flex-direction: row;
 		width: 100%;
 		justify-content: center;
 		margin-top: 50px;
 	}
-    .line {
-        display: flex;
-        flex-direction: column  ;
+	.line {
+		display: flex;
+		flex-direction: column;
 		/* margin: 10px			 */
-    }
+	}
 </style>
