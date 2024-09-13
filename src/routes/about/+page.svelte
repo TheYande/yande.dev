@@ -42,7 +42,6 @@
 			<ul>
 				<li>coding</li>
 				<li>chatting</li>
-				<li>cally</li>
 				<li>pizza</li>
 				<li>chicken</li>
 			</ul>
